@@ -1,18 +1,17 @@
 """
-Whisper STT Node — FINAL VERSION
+Whisper STT Node
 ROS2 Humble + macOS M1
 
-Fixes:
-  1. Minimum RMS energy threshold — rejects ambient noise and silence
-     before even attempting transcription. Eliminates hallucinations.
-  2. Minimum duration threshold — ignores clips shorter than 0.8s
-  3. Expanded hallucination filter word list
-  4. Pauses while TTS speaking (/tts_speaking topic)
-  5. Routes speech to correct topic based on robot phase:
+Minimum RMS energy threshold, rejects ambient noise and silence
+before even attempting transcription. Eliminates hallucinations.
+Minimum duration threshold, ignores clips shorter than 0.8s
+Expanded hallucination filter word list
+Pauses while TTS speaking (/tts_speaking topic)
+Routes speech to correct topic based on robot phase:
        READY      → /command_text
        CLARIFYING → /human_feedback
        FEEDBACK   → /human_feedback
-  6. Timeout watchdog resets to READY after 45s stuck
+Timeout watchdog resets to READY after 45s stuck
 
 Install: pip install openai-whisper sounddevice scipy
          brew install ffmpeg
@@ -37,7 +36,7 @@ WHISPER_MODEL     = "small"
 SAMPLE_RATE       = 16000
 BLOCK_SIZE        = 512
 
-# Energy threshold — blocks below this RMS are treated as silence
+# Energy threshold blocks below this RMS are treated as silence
 # Typical speech RMS: 0.02-0.15. Ambient noise: 0.005-0.015.
 MIN_RMS_THRESHOLD  = 0.018
 
@@ -192,7 +191,7 @@ class WhisperSTTNode(Node):
             if duration < MIN_SPEECH_SECS:
                 continue
 
-            # Energy check — reject clips that are mostly silence
+            # Energy check reject clips that are mostly silence
             rms = float(np.sqrt(np.mean(audio ** 2)))
             if rms < MIN_RMS_THRESHOLD:
                 self.get_logger().info(

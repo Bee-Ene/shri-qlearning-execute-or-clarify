@@ -1,8 +1,8 @@
 """
-shri_state.py — State Abstraction and NLU Parser — FINAL VERSION
-Shared between Colab simulation and ROS2 deployment.
+shri_state.py, State Abstraction and NLU Parser
+Shared between training and ROS2 deployment.
 
-Key fix: parse_confidence for complete commands is 0.92 (CLEAR).
+parse_confidence for complete commands is 0.92 (CLEAR).
 Only missing params reduce confidence below 0.60 threshold.
 "move forward" → direction present → conf=0.92 → CLEAR → State 0.
 """
@@ -28,7 +28,7 @@ class Feasibility(Enum):
     UNCERTAIN = 1
     BLOCKED   = 2
 
-# Thresholds — confirmed stable by sensitivity analysis (std=0.020)
+# Thresholds confirmed stable by sensitivity analysis (std=0.020)
 PARSE_AMBIGUOUS_THRESHOLD  = 0.60
 PERC_UNCERTAIN_THRESHOLD   = 0.45
 PERC_UNCERTAIN_NAV         = 0.50
@@ -60,7 +60,7 @@ DIRECTION_MAP = {
     "straight":  "forward",
 }
 
-# TTS echo detection — robot should not command itself
+# TTS echo detection: robot should not command itself
 TTS_ECHO_PHRASES = [
     "ready", "please give", "understood", "executing",
     "which direction", "where should", "obstacle",
@@ -148,7 +148,7 @@ def build_state(intent: str,
     return encode_state(comp, clar, feas)
 
 
-# ── NLU Parser — FINAL ────────────────────────────────────────────────────────
+# ── NLU Parser ────────────────────────────────────────────────────────
 
 WORD_TO_NUM = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
@@ -263,8 +263,8 @@ def parse_command(text: str) -> dict:
         else:
             missing_params.append("target")
 
-    # ── Confidence — determines CLEAR vs AMBIGUOUS ────────────────────
-    # This is the critical computation. Must be >= 0.60 for CLEAR.
+    # ── Confidence determines CLEAR vs AMBIGUOUS ────────────────────
+    # Must be >= 0.60 for CLEAR.
     n_miss = len(missing_params)
 
     if intent == "UNKNOWN":

@@ -1,5 +1,5 @@
 """
-Session Logger Node — SHRI Decision System
+Session Logger Node, SHRI Decision System
 
 Automatically logs every interaction to a CSV file per user session.
 This data feeds directly into the user study analysis and thesis charts.
@@ -26,7 +26,7 @@ import numpy as np
 from datetime import datetime
 
 
-LOG_DIR = os.path.expanduser("~/Documents/ros2_learning/session_logs")
+LOG_DIR = os.path.expanduser("~/PATH/PATH/session_logs")
 
 
 class SessionLoggerNode(Node):
@@ -131,7 +131,7 @@ class SessionLoggerNode(Node):
         self.get_logger().info(
             f"  Logging episode {self._ep_num}: '{self._cmd_text}'")
 
-    # ── Status updates — capture decision and outcome ─────────────────
+    # ── Status updates capture decision and outcome ─────────────────
     def _status_cb(self, msg: String):
         status = msg.data.strip().upper()
         with self._lock:

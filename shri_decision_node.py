@@ -1,16 +1,7 @@
 """
-SHRI Decision Node — FINAL VERSION
+SHRI Decision Node 
 ROS2 Humble + Gazebo Classic 11 + Unitree Go2
 
-All issues resolved:
-  1. TypeError NoneType // int: all decode_state() calls guarded with None check
-  2. Startup brake stops immediately on first command (no movement blocking)
-  3. LiDAR startup delay prevents false BLOCKED at spawn
-  4. BLOCKED threshold 0.70m (less wall false positives)
-  5. Timer repeat fixed with fired-flag pattern throughout
-  6. Unknown intent handled gracefully
-  7. Recovery resets episode if still blocked after move
-  8. Status messages clear and consistent for all terminals
 """
 
 import rclpy
@@ -281,7 +272,7 @@ class SHRIDecisionNode(Node):
             elif dirn == "right": twist.angular.z = -ANGULAR
         elif intent == "NAVIGATE_TO":
             twist.linear.x = LINEAR
-        # STOP / SIT / STAND: zero twist — robot stays still
+        # STOP / SIT / STAND: zero twist; robot stays still
 
         # Duration
         if twist.linear.x != 0:
@@ -518,7 +509,7 @@ class SHRIDecisionNode(Node):
         self.pub_vel.publish(twist)
         self.phase = Phase.RECOVERING
         self._publish_status(
-            "RECOVERING - moving " + direction.upper() +
+            "RECOVERING : moving " + direction.upper() +
             " to clear obstacle...")
 
         self._recovery_timer_fired = False
@@ -556,7 +547,7 @@ class SHRIDecisionNode(Node):
                 "(obs=" + str(self.obs_dist) + "m). "
                 "Resetting episode.")
             self._publish_status(
-                "FAILED - obstacle not cleared | Give new command")
+                "FAILED : obstacle not cleared | Give new command")
             self._reset()
             return
 
@@ -579,7 +570,7 @@ class SHRIDecisionNode(Node):
         self.get_logger().info("─" * 60)
         self.get_logger().info("  Episode complete. Ready for next command.")
         self.get_logger().info("─" * 60)
-        self._publish_status("READY - waiting for command")
+        self._publish_status("READY : waiting for command")
 
     def _publish_status(self, text: str):
         msg = String()

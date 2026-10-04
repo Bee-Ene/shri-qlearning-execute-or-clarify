@@ -1,6 +1,5 @@
 """
-Combined Human Input Node — FINAL VERSION for User Study
-=========================================================
+Combined Human Input Node, for User Study
 Replaces whisper_stt_node + command_input_node + feedback_input_node.
 ONE terminal for the human operator. Robot speaks via TTS.
 
@@ -12,7 +11,6 @@ Flow:
 
 For user study: the participant sits at this terminal.
 They type commands and responses. The robot speaks back.
-This is fully reliable and completely valid for a thesis user study.
 """
 
 import rclpy
@@ -34,7 +32,7 @@ class CombinedInputNode(Node):
         self.pub_cmd = self.create_publisher(String, "/command_text",   10)
         self.pub_fb  = self.create_publisher(String, "/human_feedback", 10)
 
-        # Subscriptions — show robot messages to human
+        # Subscriptions : show robot messages to human
         self.create_subscription(
             String, "/shri_status",
             self._status_cb, 10)
@@ -169,7 +167,7 @@ class CombinedInputNode(Node):
     # ── Input loop ─────────────────────────────────────────────────────
 
     def _input_loop(self):
-        """Main input loop — runs in background thread."""
+        """Main input loop runs in background thread."""
         # Wait for system to start
         time.sleep(2.0)
         print("\n  Command > ", end="", flush=True)

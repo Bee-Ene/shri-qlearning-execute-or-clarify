@@ -1,5 +1,5 @@
 """
-TTS Node — macOS 'say' command (zero dependencies)
+TTS Node: macOS 'say' command (zero dependencies)
 Uses subprocess to call the built-in macOS speech engine directly.
 No pip install needed. Works offline always.
 
@@ -45,7 +45,7 @@ class TTSNode(Node):
             String, "/shri_status",
             self._status_cb, 10)
 
-        # Publisher — signals Whisper to pause while speaking
+        # Publisher signals Whisper to pause while speaking
         self.pub_busy = self.create_publisher(
             String, "/tts_speaking", 10)
 
@@ -119,7 +119,7 @@ class TTSNode(Node):
     def _speak(self, text: str):
         """
         Uses macOS built-in 'say' command.
-        Zero dependencies — works on every Mac with no pip install.
+        Zero dependencies works on Mac with no pip install.
         Same voice engine as Siri and the Terminal 'say' command.
         """
         try:
@@ -130,7 +130,7 @@ class TTSNode(Node):
 
             # Speak using macOS built-in engine
             # -r 175 = rate (words per minute), natural conversational speed
-            # -v Samantha = clear US English voice (best for demos)
+            # -v Samantha = clear US English voice 
             subprocess.run(
                 ["say", "-r", "175", "-v", "Samantha", text],
                 timeout=30,

@@ -17,4 +17,7 @@ SDF models
 
 QL.ipynb (first), SensitivityAnalysis.ipynb, Comparisons.ipynb, BaselineComp.ipynb, ROS2 package files, UserS (last).
 
+System Operation Demo, ROS2 + Gazebo, Unitree Go2, execute-or-clarify decisions in real time [Watch on YouTube(https://youtu.be/CxAmgp97-08)]
+User Study Session, Sample interaction from N=25 pilot study [Watch on YouTube(https://youtu.be/q6N906OCKfQ)]
+
 PS: command_input and combined_input serve the same purpose but in different situations, while, session_logger was used during user study.
